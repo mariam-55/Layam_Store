@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المفضلة | LAYAM STORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo'; }</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <nav class="bg-white shadow-sm h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between">
+            <a href="../index.html" class="text-2xl font-black">LAYAM <span class="text-red-600">STORE</span></a>
+            <a href="../index.html" class="font-bold text-gray-500 hover:text-black transition">العودة للمتجر</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <h1 class="text-3xl font-black mb-10 flex items-center gap-4">
+            المفضلة <span class="text-red-600">❤️</span>
+        </h1>
+
+        <div id="wishlist-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- سيتم تحميل المنتجات المفضلة هنا -->
+        </div>
+    </main>
+
+    <script>
+        function renderWishlist() {
+            const grid = document.getElementById('wishlist-grid');
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (wishlist.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-gray-300">
+                        <h2 class="text-2xl font-bold text-gray-400 mb-6">قائمة المفضلة فارغة حالياً</h2>
+                        <a href="../index.html" class="bg-black text-white px-8 py-3 rounded-xl font-bold">اكتشف المنتجات</a>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = wishlist.map((p, index) => `
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 group">
+                    <div class="relative h-64 overflow-hidden bg-gray-100">
+                        <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <button onclick="removeFromWishlist(${index})" class="absolute top-4 right-4 bg-red-600 text-white p-2 rounded-full shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-2 truncate">${p.name}</h3>
+                        <p class="text-red-600 font-black mb-4">${p.price} ر.س</p>
+                        <button onclick="moveToCart(${index})" class="w-full bg-black text-white py-3 rounded-xl font-bold hover:bg-red-600 transition">نقل للسلة</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.removeFromWishlist = (index) => {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist.splice(index, 1);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            renderWishlist();
+        };
+
+        window.moveToCart = (index) => {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const item = wishlist.splice(index, 1)[0];
+            
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            
+            alert(`تم نقل ${item.name} إلى السلة!`);
+            renderWishlist();
+        };
+
+        window.onload = renderWishlist;
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المنتج | LAYAM STORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo'; }</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <nav class="bg-white shadow-sm h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between">
+            <a href="../index.html" class="text-2xl font-black">LAYAM <span class="text-red-600">STORE</span></a>
+            <a href="../index.html" class="font-bold text-gray-500 hover:text-black transition">العودة للمتجر</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <div id="product-container" class="bg-white rounded-[40px] shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+            <!-- Loading State -->
+            <div class="col-span-full p-20 text-center text-gray-400 font-bold">جاري تحميل التفاصيل...</div>
+        </div>
+    </main>
+
+    <script>
+        function loadProductDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = parseInt(urlParams.get('id'));
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products.find(p => p.id === id);
+            const container = document.getElementById('product-container');
+
+            if (!product) {
+                container.innerHTML = `<div class="col-span-full p-20 text-center font-bold">عذراً، المنتج غير موجود!</div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="h-[500px] overflow-hidden">
+                    <img src="${product.image}" class="w-full h-full object-cover">
+                </div>
+                <div class="p-12 flex flex-col justify-center">
+                    <h1 class="text-4xl font-black mb-4">${product.name}</h1>
+                    <div class="text-red-600 text-3xl font-black mb-6">${product.price} ر.س</div>
+                    <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+                        ${product.desc || 'هذا المنتج المميز متوفر حصرياً في متجرنا بجودة عالية وتصميم فريد يناسب ذوقك الرفيع.'}
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <button onclick="addToCartDetailed(${product.id})" class="w-full bg-black text-white py-5 rounded-2xl font-black text-xl hover:bg-red-600 transition shadow-xl shadow-gray-200">أضف للسلة</button>
+                        <button onclick="addToWishlistDetailed(${product.id})" class="w-full border-2 border-gray-100 py-4 rounded-2xl font-bold text-gray-500 hover:bg-gray-50 transition">إضافة للمفضلة ❤️</button>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-gray-100 flex gap-8 text-sm text-gray-400 font-bold">
+                        <div class="flex items-center gap-2">🚚 شحن سريع</div>
+                        <div class="flex items-center gap-2">✅ أصلي 100%</div>
+                        <div class="flex items-center gap-2">🔄 استرجاع مجاني</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.addToCartDetailed = (id) => {
+             const products = JSON.parse(localStorage.getItem('products')) || [];
+             let cart = JSON.parse(localStorage.getItem('cart')) || [];
+             const item = products.find(p => p.id === id);
+             if (item) {
+                 cart.push(item);
+                 localStorage.setItem('cart', JSON.stringify(cart));
+                 alert(`تم إضافة ${item.name} للسلة!`);
+             }
+        };
+
+        window.addToWishlistDetailed = (id) => {
+             const products = JSON.parse(localStorage.getItem('products')) || [];
+             let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+             const item = products.find(p => p.id === id);
+             if (item && !wishlist.some(w => w.id === id)) {
+                 wishlist.push(item);
+                 localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                 alert(`تمت الإضافة للمفضلة ❤️`);
+             }
+        };
+
+        window.onload = loadProductDetail;
+    </script>
+</body>
+</html>

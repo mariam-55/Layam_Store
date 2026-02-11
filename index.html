@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAYAM STORE | فخامة التسوق</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>body { font-family: 'Cairo', sans-serif; }</style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-3xl font-black tracking-tighter italic">LAYAM <span class="text-red-600">STORE</span></a>
+                </div>
+                <div class="hidden md:flex space-x-8 space-x-reverse font-bold text-gray-600">
+                    <a href="index.html" class="hover:text-red-600 transition">الرئيسية</a>
+                    <a href="#products" class="hover:text-red-600 transition">المتجر</a>
+                    <a href="pages/wishlist.html" class="hover:text-red-600 transition">المفضلة</a>
+                </div>
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <!-- Wishlist Icon -->
+                    <a href="pages/wishlist.html" class="p-2 text-gray-600 hover:text-red-600 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </a>
+                    <!-- Cart Icon -->
+                    <a href="pages/cart.html" class="relative p-2 text-gray-600 hover:text-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+                    </a>
+                    <div id="user-nav-links" class="flex items-center gap-3">
+                        <a href="pages/login.html" class="bg-black text-white px-6 py-2 rounded-full font-bold hover:bg-red-600 transition text-sm">دخول</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative bg-black h-[500px] flex items-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10"></div>
+        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="Hero">
+        <div class="max-w-7xl mx-auto px-4 relative z-20 text-white w-full">
+            <h1 class="text-6xl font-black mb-4">أناقة بلا <br><span class="text-red-600">حدود</span></h1>
+            <p class="text-gray-300 text-xl mb-8 max-w-md">استمتع بتجربة تسوق فريدة مع أحدث تشكيلاتنا الحصرية لهذا الموسم.</p>
+            <a href="#products" class="bg-red-600 text-white px-10 py-4 rounded-xl text-lg font-bold hover:bg-white hover:text-black transition inline-block">تسوق الآن</a>
+        </div>
+    </header>
+
+    <!-- Flash Sale Timer Section -->
+    <section class="bg-red-600 py-10">
+        <div class="max-w-7xl mx-auto px-4 text-center text-white">
+            <h2 class="text-3xl font-black mb-6">عروض تنتهي قريباً! 🔥</h2>
+            <div id="timer" class="flex justify-center gap-4 text-center">
+                <div class="bg-white/20 p-4 rounded-2xl w-24">
+                    <span id="hours" class="block text-3xl font-black">00</span>
+                    <span class="text-xs font-bold uppercase">ساعة</span>
+                </div>
+                <div class="bg-white/20 p-4 rounded-2xl w-24">
+                    <span id="minutes" class="block text-3xl font-black">00</span>
+                    <span class="text-xs font-bold uppercase">دقيقة</span>
+                </div>
+                <div class="bg-white/20 p-4 rounded-2xl w-24">
+                    <span id="seconds" class="block text-3xl font-black">00</span>
+                    <span class="text-xs font-bold uppercase">ثانية</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="max-w-7xl mx-auto px-4 py-20">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-black mb-4">أبرز المنتجات</h2>
+            <div class="h-1.5 w-24 bg-red-600 mx-auto rounded-full"></div>
+        </div>
+
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- سيتم تحميل المنتجات هنا بواسطة الجافاسكريبت -->
+        </div>
+    </section>
+
+    <footer class="bg-white border-t py-10 text-center text-gray-500 font-bold">
+        &copy; 2024 LAYAM STORE - جميع الحقوق محفوظة
+    </footer>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/shop.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
